@@ -1,5 +1,8 @@
+'use client';
+
 import React from 'react';
 import { GenericPageSkeleton } from './LoadingSkeleton';
+import { EmptyState } from './EmptyState';
 
 export type ListStateProps =
   | { state: 'loading'; skeleton?: React.ReactNode }
@@ -33,11 +36,11 @@ export function ListState(props: ListStateProps) {
       );
     case 'empty':
       return (
-        <div className="card card-padding text-center py-16 fade-in border border-zinc-200 dark:border-zinc-800">
-          {/* TODO(Issue #1209): Integrate empty-state illustrations here */}
-          <p className="text-meta">{props.message || 'No items found.'}</p>
-          {props.action && <div className="mt-4">{props.action}</div>}
-        </div>
+        <EmptyState
+          title={typeof props.message === 'string' ? props.message : 'No items found.'}
+          action={props.action}
+          size="md"
+        />
       );
     case 'success':
       return <>{props.children}</>;

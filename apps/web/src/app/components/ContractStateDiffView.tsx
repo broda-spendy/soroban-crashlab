@@ -25,6 +25,7 @@ import {
   summarizeStateChanges,
   type StateChangeFilter,
 } from './state-diff-utils';
+import { EmptyState } from '@/components/EmptyState';
 
 interface ContractStateDiffViewProps {
   changes: LedgerStateChange[];
@@ -90,20 +91,6 @@ function FieldRow({ name, color, children }: { name: string; color: string; chil
   );
 }
 
-function EmptyState({ title, hint }: { title: string; hint: string }) {
-  return (
-    <div
-      className="rounded-xl border border-dashed p-8 text-center"
-      style={{ borderColor: 'var(--border-color)', background: 'var(--bg)' }}
-    >
-      <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-        {title}
-      </p>
-      <p className="text-meta mt-1">{hint}</p>
-    </div>
-  );
-}
-
 export default function ContractStateDiffView({
   changes,
   isLoading = false,
@@ -157,6 +144,7 @@ export default function ContractStateDiffView({
       <EmptyState
         title="No state changes detected"
         hint="This run did not commit any contract or ledger state. Runs still in flight report their footprint once they finish."
+        size="md"
       />
     );
   }
@@ -201,6 +189,7 @@ export default function ContractStateDiffView({
         <EmptyState
           title="No entries match this filter"
           hint={`This run has no ${filter} ledger entries. Choose a different change type above.`}
+          size="md"
         />
       ) : (
         <div className="space-y-3">

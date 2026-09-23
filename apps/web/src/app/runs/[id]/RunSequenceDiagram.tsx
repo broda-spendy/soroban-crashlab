@@ -24,6 +24,7 @@ import {
   summarizeCallSequence,
   type CallStatusFilter,
 } from './run-sequence-diagram-utils';
+import { EmptyState } from '@/components/EmptyState';
 
 interface RunSequenceDiagramProps {
   steps: ContractCallStep[];
@@ -49,20 +50,6 @@ function StatusBadge({ status }: { status: ContractCallStatus }) {
     >
       {status.toUpperCase()}
     </span>
-  );
-}
-
-function EmptyState({ title, hint }: { title: string; hint: string }) {
-  return (
-    <div
-      className="rounded-xl border border-dashed p-8 text-center"
-      style={{ borderColor: 'var(--border-color)', background: 'var(--bg)' }}
-    >
-      <p className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>
-        {title}
-      </p>
-      <p className="text-meta mt-1">{hint}</p>
-    </div>
   );
 }
 
@@ -109,6 +96,7 @@ export default function RunSequenceDiagram({
       <EmptyState
         title="No contract calls recorded"
         hint="Runs still in flight have not committed a final call trace yet. The sequence appears once the run finishes."
+        size="md"
       />
     );
   }
@@ -144,6 +132,7 @@ export default function RunSequenceDiagram({
         <EmptyState
           title="No calls match this filter"
           hint={`This run has no ${filter} calls. Choose a different outcome above.`}
+          size="md"
         />
       ) : (
         <ol className="space-y-2">
