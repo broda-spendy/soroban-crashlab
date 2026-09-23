@@ -17,7 +17,18 @@ export async function tryBackend(
         const data = await res.json();
         return successResponse(data);
       }
-      return errorResponse(`Upstream error`, res.status);
+      // Preserve upstream error body instead of generic message
+      let errorBody: string | object = `Upstream error (${res.status})`;
+      try {
+        errorBody = await res.json();
+      } catch {
+        try {
+          errorBody = await res.text();
+        } catch {
+          // Fall back to generic message
+        }
+      }
+      return errorResponse(errorBody, res.status);
     } catch {
       return errorResponse('Backend unavailable', status.serviceUnavailable);
     }
